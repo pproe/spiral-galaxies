@@ -1,0 +1,20 @@
+# Environment Files
+.idea/
+.ipynb_checkpoints/
+
+# Text Data
+*.dat
+*.out
+*.txt
+*.json
+*.h5
+*.cat
+
+# Compressed Files
+*.zip
+*.tar
+*.gz
+
+# Images
+*.jpg
+*.png
