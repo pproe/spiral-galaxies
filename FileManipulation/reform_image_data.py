@@ -1,13 +1,20 @@
+"""
+This module provides functions for formatting a folder of image files into a .dat
+file of float pixel intensity values for use in machine learning applications.
+@author: Patrick Roe (http://pproe.dev)
+"""
+
 # Import Packages
 import time
 import math
+from pathlib import Path
 from PIL import Image
 import numpy as np
-from pathlib import Path
+
 
 # File Locations
 INPUT_IMAGES_DIRECTORY = "./Tadaki+20_spiral/Tadaki+20_S"
-OUTPUT_IMAGES_FILE = "./Tadaki+20_spiral/out.txt"
+OUTPUT_IMAGES_FILE = "./Tadaki+20_spiral/Tadaki+20_S.txt"
 
 # Global Constants
 IMAGE_SIZE_X = 64
@@ -36,7 +43,9 @@ def print_progress_bar(
         fill        - Optional  : bar fill character (Str)
         printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
     """
-    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    percent = ("{0:." + str(decimals) + "f}").format(
+        100 * (iteration / float(total))
+    )
     filled_length = int(length * iteration // total)
     progress_bar = fill * filled_length + "-" * (length - filled_length)
     print(f"\r{prefix} |{progress_bar}| {percent}% {suffix}", end=print_end)
@@ -92,7 +101,9 @@ def extract_images(input_location, output_location):
 
     # Initiate progress bar
     num_files = len(filenames)
-    print_progress_bar(0, num_files, prefix="Progress:", suffix="Complete", length=50)
+    print_progress_bar(
+        0, num_files, prefix="Progress:", suffix="Complete", length=50
+    )
 
     # Variable to track estimated time
     avg_time = 0
@@ -131,4 +142,5 @@ def extract_images(input_location, output_location):
     output_buffer.close()
 
 
-extract_images(INPUT_IMAGES_DIRECTORY, OUTPUT_IMAGES_FILE)
+if __name__ == "__main__":
+    extract_images(INPUT_IMAGES_DIRECTORY, OUTPUT_IMAGES_FILE)
