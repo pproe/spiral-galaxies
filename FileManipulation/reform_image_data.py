@@ -13,8 +13,9 @@ import numpy as np
 
 
 # File Locations
-INPUT_IMAGES_DIRECTORY = "./Tadaki+20_spiral/Tadaki+20_S"
-OUTPUT_IMAGES_FILE = "./Tadaki+20_spiral/Tadaki+20_S.txt"
+INPUT_IMAGES_DIRECTORIES = ["./Tadaki+20_spiral/Tadaki+20_S", "./Tadaki+20_spiral/Tadaki+20_Z"]
+OUTPUT_IMAGES_FILE = "./Tadaki_images.dat"
+OUTPUT_LABELS_FILE = "./Tadaki_labels.dat"
 
 # Global Constants
 IMAGE_SIZE_X = 64
@@ -77,8 +78,35 @@ def estimate_time_remaining(
 
     return f"{minutes_remaining:.0f}m {seconds_remaining:.0f}s"
 
+def extract_labels(input_label_location):
+    """
+    Returns dictionary with spiral classification of each image ID
+    0 is non-spiral as predicted by the Tadaki CNN and 1 is spiral
+    """
+    label_dict = {}
+    
+    input_path = Path(input_label_location)
+    if not input_path.exists():
+        print("Input labels location does not exist.")
+        return -1
 
-def extract_images(input_location, output_location):
+    input_file = open(input_path, "r", encoding="UTF-8")
+    
+    for line in input_file:
+        line_data = line.split()
+        
+        # Skip Comment lines
+        if line_data[0] == "#":
+            continue
+        
+        prediction = abs(round(+line_data[13])-1)
+        
+        label_dict[line_data[0]] = prediction
+    
+    input_file.close()
+    return label_dict
+
+def extract_images(input_locations, output_image_location, output_label_location):
     """
     Outputs all image data in 64x64 format in output_location
     @params:
@@ -86,61 +114,71 @@ def extract_images(input_location, output_location):
         output_location - Required : location for output text file (String)
     """
 
+    # Clear output files
+    output_image_path = Path(output_image_location)
+    output_label_path = Path(output_label_location)
+    
+    open(output_image_path, "w", encoding="UTF-8").close()
+    open(output_label_path, "w", encoding="UTF-8").close()
+    
     # Get all locations of filenames and store in list
-    input_path = Path(input_location)
-    output_path = Path(output_location)
+    for idx, input_location in enumerate(input_locations):
+        
+        print(f'Processing folder {idx+1} of {len(input_locations)}')
+        input_path = Path(input_location)
+        
+        if not input_path.exists():
+            print("Input Image location does not exist.")
+            return -1
+        filenames = list(input_path.glob("*.jpg"))
 
-    if not input_path.exists():
-        print("Input location does not exist.")
-        return -1
-    filenames = list(input_path.glob("*.jpg"))
+        # Open Output buffer
+        output_image_buffer = open(output_image_path, "ab")
+        output_label_buffer = open(output_label_path, "ab")
 
-    # Clear output file and  open file
-    open(output_path, "w", encoding="UTF-8").close()
-    output_buffer = open(output_path, "ab")
-
-    # Initiate progress bar
-    num_files = len(filenames)
-    print_progress_bar(
-        0, num_files, prefix="Progress:", suffix="Complete", length=50
-    )
-
-    # Variable to track estimated time
-    avg_time = 0
-
-    # Open each image location in filenames and append results to output_location
-    for i, file in enumerate(filenames):
-
-        start_time = time.time()
-
-        image = Image.open(file)
-        # Resize image if necessary
-        if not image.size == (IMAGE_SIZE_X, IMAGE_SIZE_Y):
-            image = image.resize((IMAGE_SIZE_X, IMAGE_SIZE_Y))
-
-        # Convert to numpy array, flatten, and normalize pixel intensities
-        data = np.asarray(image).flatten().astype("float64")
-        data_max = np.amax(data)
-        data = data / data_max
-
-        # Write data to output file
-        # output_buffer.write(b"\n")
-        np.savetxt(output_buffer, data, fmt="%1.4f")
-
-        # Estimate time remaining and Update Progress Bar
-        end_time = time.time() - start_time
-        avg_time = (avg_time * i + end_time) / (i + 1)
-        time_remaining = estimate_time_remaining(i + 1, num_files, avg_time)
+        # Initiate progress bar
+        num_files = len(filenames)
         print_progress_bar(
-            i + 1,
-            num_files,
-            prefix="Progress:",
-            suffix=f"Complete, Estimated {time_remaining} remaining.",
-            length=50,
+            0, num_files, prefix="Progress:", suffix="Complete", length=50
         )
 
-    output_buffer.close()
+        # Variable to track estimated time
+        avg_time = 0
+
+        # Open each image location in filenames and append results to output_location
+        for i, file in enumerate(filenames):
+
+            start_time = time.time()
+
+            image = Image.open(file)
+            # Resize image if necessary
+            if not image.size == (IMAGE_SIZE_X, IMAGE_SIZE_Y):
+                image = image.resize((IMAGE_SIZE_X, IMAGE_SIZE_Y))
+
+            # Convert to numpy array, flatten, and normalize pixel intensities
+            data = np.asarray(image).flatten().astype("float64")
+            data_max = np.amax(data)
+            data = data / data_max
+
+            # Write data to output file
+            # output_buffer.write(b"\n")
+            np.savetxt(output_image_buffer, data, fmt="%1.4f")
+
+            # Estimate time remaining and Update Progress Bar
+            end_time = time.time() - start_time
+            avg_time = (avg_time * i + end_time) / (i + 1)
+            time_remaining = estimate_time_remaining(i + 1, num_files, avg_time)
+            print_progress_bar(
+                i + 1,
+                num_files,
+                prefix="Progress:",
+                suffix=f"Complete, Estimated {time_remaining} remaining.",
+                length=50,
+            )
+
+        output_image_buffer.close()
+        output_label_buffer.close()
 
 
 if __name__ == "__main__":
-    extract_images(INPUT_IMAGES_DIRECTORY, OUTPUT_IMAGES_FILE)
+    extract_images(INPUT_IMAGES_DIRECTORIES, OUTPUT_IMAGES_FILE, OUTPUT_LABELS_FILE)
