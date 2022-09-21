@@ -14,6 +14,7 @@ import numpy as np
 
 # File Locations
 INPUT_IMAGES_DIRECTORIES = ["./Tadaki+20_spiral/Tadaki+20_S", "./Tadaki+20_spiral/Tadaki+20_Z"]
+INPUT_LABELS_LOCATION = "./Tadaki+20_spiral/Tadaki+20_spiral.cat"
 OUTPUT_IMAGES_FILE = "./Tadaki_images.dat"
 OUTPUT_LABELS_FILE = "./Tadaki_labels.dat"
 
@@ -99,11 +100,12 @@ def extract_labels(input_label_location):
         if line_data[0] == "#":
             continue
         
-        prediction = abs(round(+line_data[13])-1)
+        prediction = abs(round(float(line_data[13]))-1)
         
         label_dict[line_data[0]] = prediction
     
     input_file.close()
+    
     return label_dict
 
 def extract_images(input_locations, output_image_location, output_label_location):
@@ -163,6 +165,9 @@ def extract_images(input_locations, output_image_location, output_label_location
             # Write data to output file
             # output_buffer.write(b"\n")
             np.savetxt(output_image_buffer, data, fmt="%1.4f")
+            
+            # Write data to output labels file
+            output_label_buffer.write(b"1\n")
 
             # Estimate time remaining and Update Progress Bar
             end_time = time.time() - start_time
@@ -181,4 +186,5 @@ def extract_images(input_locations, output_image_location, output_label_location
 
 
 if __name__ == "__main__":
+    #print(extract_labels(INPUT_LABELS_LOCATION))
     extract_images(INPUT_IMAGES_DIRECTORIES, OUTPUT_IMAGES_FILE, OUTPUT_LABELS_FILE)
