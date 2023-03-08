@@ -14,10 +14,15 @@
 *.zip
 *.tar
 *.gz
+*.rar
 
 # Images
 *.jpg
 *.png
+*.tif
 
 # numpy save files
 *.npy
+
+# other files
+*.xlsx
