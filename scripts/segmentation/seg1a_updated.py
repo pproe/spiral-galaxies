@@ -1,6 +1,7 @@
 """
 This is for semantic segmentaion of galaxies by U-net
 By Kenji Bekki, on 2020/2/25
+Adapted by Patrick Roe, on 2022/11/19
 
 Revised for two channel
 
@@ -43,7 +44,7 @@ import os.path
 
 iset=5
 epochs=10
-nmodel=2500
+nmodel=100
 print('nmodel',nmodel)
 
 ### Original values
@@ -58,7 +59,7 @@ n_mesh=64
 #nmodel=4000
 
 #Channel number (new 2019/9/6)
-nch=3
+nch=1
 #num class number
 ncl=1
 
@@ -82,7 +83,7 @@ input_shape = (img_rows, img_cols, nch)
 # This is for simlation data sets
 
 #### Reading the density plot (1)
-with open('2df0.dat') as f:
+with open('set_2_orig.dat') as f:
   lines=f.readlines()
 
 #### Reading the density plot (2)
@@ -90,7 +91,7 @@ with open('2df0.dat') as f:
 #  lines0=f.readlines()
 
 #### For output the segmentation label
-f1=open('seg1a.dat','w')
+f1=open('set_2_pred.dat','w')
 
 x_train=np.zeros((nmodel,n_mesh3,nch))
 x_train0=np.zeros((nmodel,n_mesh3,nch))
@@ -111,12 +112,12 @@ for num,j in enumerate(lines):
   jbin=jbin+1
   tm=j.strip().split()
   x_train[ibin,jbin,0]=float(tm[0])
-  x_train[ibin,jbin,1]=float(tm[0])
-  x_train[ibin,jbin,2]=float(tm[0])
+  #x_train[ibin,jbin,1]=float(tm[0])
+  #x_train[ibin,jbin,2]=float(tm[0])
 
   x_test[ibin,jbin,0]=float(tm[0])
-  x_test[ibin,jbin,1]=float(tm[0])
-  x_test[ibin,jbin,2]=float(tm[0])
+  #x_test[ibin,jbin,1]=float(tm[0])
+  #x_test[ibin,jbin,2]=float(tm[0])
 
   if jbin == n_mesh2:
     ibin+=1

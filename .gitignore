@@ -1,6 +1,7 @@
 # Environment Files
 .idea/
 .ipynb_checkpoints/
+__pycache__/
 
 # Text Data
 *.dat
@@ -9,6 +10,7 @@
 *.json
 *.h5
 *.cat
+*.log
 
 # Compressed Files
 *.zip
@@ -30,3 +32,11 @@
 # model checkpoints
 notebooks/model_checkpoints/*
 
+# data files
+data/
+
+# Exclude scripts written by Kenji
+kenjis_scipts/
+
+# allow images inside images folder (for README only)
+!images/*

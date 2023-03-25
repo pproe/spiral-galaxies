@@ -1,6 +1,7 @@
 """
 
 This is for Generating Confusion Matrices for CNN classification models
+Supports multi-class classification
 By Patrick Roe, on 2022/07/30
 
 """

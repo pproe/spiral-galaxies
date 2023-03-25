@@ -1,6 +1,6 @@
 """
 
-This is for Generating Confusion Matrices for CNN classification models
+This is for Generating Binary Confusion Matrices for CNN classification models
 By Patrick Roe, on 2022/07/30
 
 """
@@ -11,22 +11,29 @@ import numpy as np
 
 # Input Data Locations
 PREDICTION_OUT_PATH = "test.out"
-TESTING_LABELS_PATH = "2dftl.dat"
+TESTING_LABELS_PATH = "..\FileManipulation\Tadaki_labels.dat"
 
 # Confusion Plot Details
-CONFUSION_MATRIX_PATH = "confusion_200epoch_50batch.png"
-CONFUSION_MATRIX_TITLE = "Confusion Matrix (200 epochs & 50 batch size)"
+CONFUSION_MATRIX_PATH = "confusion_matrices_3\confusion_Tadaki.png"
+CONFUSION_MATRIX_TITLE = "Confusion Matrix for Tadaki Binary Classification"
 
 # Confusion Matrix Config
-CLASS_LABELS = ["E", "S0", "Sp"]
+CLASS_LABELS = ["Non-Spiral", "Spiral"]
 
 def loadData():
     
+    # Dictionary for converting to binary (Spiral & Non-Spiral) classification
+    label_dict = {
+        b"1": 0,
+        b"2": 0,
+        b"3": 1
+    }
+    
     # Converter to subtract 1 from all labels
-    label_converter = lambda x: int(x) - 1;   
+    label_converter = lambda x: label_dict[x];       
     
     # Load Testing Labels
-    testing_labels = np.genfromtxt(TESTING_LABELS_PATH, dtype=np.uint8, converters={0: label_converter})
+    testing_labels = np.genfromtxt(TESTING_LABELS_PATH, dtype=np.uint8, max_rows=10000)# converters={0: label_converter})
     
     # Load Prediction Labels
     prediction_labels = np.genfromtxt(PREDICTION_OUT_PATH, dtype=np.uint8, skip_header=1, usecols=(0))

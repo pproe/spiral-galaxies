@@ -1,7 +1,7 @@
 """
 This is for semantic segmentaion of galaxies by U-net
 By Kenji Bekki, on 2020/2/25
-
+Adapted by Patrick Roe, on 2022/11/19
 Revised for two channel
 
 """

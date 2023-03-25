@@ -1,8 +1,14 @@
+"""
+
+Use a trained model to make predictions of Spiral vs Non-Spiral galaxies
+By Patrick Roe, on 2022/09/21
+
+"""
+
 from tensorflow.keras.models import model_from_json
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
 
 IMAGES_PATH = r"..\FileManipulation\PDR2_i20_images.dat"
 NUM_IMAGES = 100

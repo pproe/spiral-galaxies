@@ -1,9 +1,7 @@
 from astropy.table import Table
 from astropy.io import fits
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image
-import pandas as pd
 import os
 from multiprocessing.pool import Pool
 from time import sleep
@@ -83,7 +81,7 @@ if __name__ == '__main__':
     
     dm = SpiralMaskDataManager('gz3d_metadata.fits', 
                                'https://data.sdss.org/sas/dr17/manga/morphology/galaxyzoo3d/v4_0_0',
-                               os.path.join(os.pardir, 'data', 'galaxyzoo3d'))
+                               os.path.join(os.pardir, os.pardir, 'data', 'galaxyzoo3d'))
     df = dm.fetch_metadata()
     
     file_names = np.array(df['file_name'])
