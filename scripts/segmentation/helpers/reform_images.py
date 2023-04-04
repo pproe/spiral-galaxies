@@ -1,4 +1,4 @@
-'''Multiple Image Reforming Script
+"""Multiple Image Reforming Script
 
 Writes a folder of images to a text file
 
@@ -7,7 +7,7 @@ https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
 
 @Author: Patrick Roe (http://pproe.dev)
 
-'''
+"""
 
 from PIL import Image
 import numpy as np
@@ -26,7 +26,7 @@ except FileNotFoundError:
     print("Image Folder not found. Please check the path and try again.")
 except:
     print("Error opening specified image folder.")
-    
+
 # Convert to numpy array
 data = np.asarray([np.asarray(image) for image in images]).flatten().astype("float64")
 

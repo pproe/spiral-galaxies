@@ -32,42 +32,60 @@ UPSCALE_IMG_WIDTH = 64
 NUM_TESTING_IMAGES = 10000
 NUM_CLASSES = 2
 
+
 def upscaleImage(img):
-    return cv2.resize(img, dsize=(UPSCALE_IMG_HEIGHT, UPSCALE_IMG_WIDTH), interpolation=cv2.INTER_CUBIC)
+    return cv2.resize(
+        img,
+        dsize=(UPSCALE_IMG_HEIGHT, UPSCALE_IMG_WIDTH),
+        interpolation=cv2.INTER_CUBIC,
+    )
+
 
 def loadData():
-    
     # Dictionary for converting to binary (Spiral & Non-Spiral) classification
-    """ label_dict = {
+    """label_dict = {
         b"1": 0,
         b"2": 0,
         b"3": 1
     }
-    
+
     # Converter to subtract 1 from all labels
-    label_converter = lambda x: label_dict[x];   """             
+    label_converter = lambda x: label_dict[x];"""
 
     # Load & Reshape Testing Labels
-    testing_labels = np.genfromtxt(TESTING_LABELS_PATH, dtype=np.uint8, max_rows=NUM_TESTING_IMAGES)#, converters={0: label_converter})
+    testing_labels = np.genfromtxt(
+        TESTING_LABELS_PATH, dtype=np.uint8, max_rows=NUM_TESTING_IMAGES
+    )  # , converters={0: label_converter})
     testing_labels = np.reshape(testing_labels, (NUM_TESTING_IMAGES, 1))
-    #testing_labels = to_categorical(testing_labels, NUM_CLASSES)
-    
+    # testing_labels = to_categorical(testing_labels, NUM_CLASSES)
+
     # Load & Reshape Testing Images
-    testing_images = np.genfromtxt(TESTING_IMAGES_PATH, dtype=np.single, max_rows=NUM_TESTING_IMAGES*ORIG_IMG_WIDTH*ORIG_IMG_WIDTH)
-    testing_images = np.reshape(testing_images, (NUM_TESTING_IMAGES, ORIG_IMG_HEIGHT, ORIG_IMG_WIDTH, 1))
-    
+    testing_images = np.genfromtxt(
+        TESTING_IMAGES_PATH,
+        dtype=np.single,
+        max_rows=NUM_TESTING_IMAGES * ORIG_IMG_WIDTH * ORIG_IMG_WIDTH,
+    )
+    testing_images = np.reshape(
+        testing_images, (NUM_TESTING_IMAGES, ORIG_IMG_HEIGHT, ORIG_IMG_WIDTH, 1)
+    )
+
     # Resize all images
-    new_testing_images = np.zeros((NUM_TESTING_IMAGES, UPSCALE_IMG_HEIGHT, UPSCALE_IMG_WIDTH))
-    
+    new_testing_images = np.zeros(
+        (NUM_TESTING_IMAGES, UPSCALE_IMG_HEIGHT, UPSCALE_IMG_WIDTH)
+    )
+
     for idx, img in enumerate(testing_images):
         new_testing_images[idx] = upscaleImage(img)
-        
-    new_testing_images = np.reshape(new_testing_images, (NUM_TESTING_IMAGES, UPSCALE_IMG_HEIGHT, UPSCALE_IMG_WIDTH, 1))
-    
+
+    new_testing_images = np.reshape(
+        new_testing_images,
+        (NUM_TESTING_IMAGES, UPSCALE_IMG_HEIGHT, UPSCALE_IMG_WIDTH, 1),
+    )
+
     return (new_testing_images, testing_labels)
 
-def loadModel():
 
+def loadModel():
     json_file = open(MODEL_PATH, "r")
     loaded_model_json = json_file.read()
     json_file.close()
@@ -76,23 +94,23 @@ def loadModel():
 
     return loaded_model
 
-def testModel(model, x_test):
 
+def testModel(model, x_test):
     y_pred = model.predict(x_test)
 
-    out_file = open(OUTFILE_PATH , "w")
-    out_file.write(str(NUM_TESTING_IMAGES) + "\n" )
+    out_file = open(OUTFILE_PATH, "w")
+    out_file.write(str(NUM_TESTING_IMAGES) + "\n")
 
     for i in range(NUM_TESTING_IMAGES):
-
         y_type = round(y_pred[i, 0])
 
-        print('i=',i,'G-type=',y_type)
+        print("i=", i, "G-type=", y_type)
 
-        out_file.write(str(y_type) + "\n" )
+        out_file.write(str(y_type) + "\n")
 
     out_file.close()
-    
+
+
 x_test, y_test = loadData()
 model = loadModel()
 testModel(model, x_test)

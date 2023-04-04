@@ -1,4 +1,4 @@
-'''Single Image Reforming Script
+"""Single Image Reforming Script
 
 Writes a single image to a text file.
 
@@ -7,7 +7,7 @@ https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
 
 @Author: Patrick Roe (http://pproe.dev)
 
-'''
+"""
 
 from PIL import Image
 import numpy as np

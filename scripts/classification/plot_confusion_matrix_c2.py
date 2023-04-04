@@ -20,40 +20,38 @@ CONFUSION_MATRIX_TITLE = "Confusion Matrix for Tadaki Binary Classification"
 # Confusion Matrix Config
 CLASS_LABELS = ["Non-Spiral", "Spiral"]
 
+
 def loadData():
-    
     # Dictionary for converting to binary (Spiral & Non-Spiral) classification
-    label_dict = {
-        b"1": 0,
-        b"2": 0,
-        b"3": 1
-    }
-    
+    label_dict = {b"1": 0, b"2": 0, b"3": 1}
+
     # Converter to subtract 1 from all labels
-    label_converter = lambda x: label_dict[x];       
-    
+    label_converter = lambda x: label_dict[x]
+
     # Load Testing Labels
-    testing_labels = np.genfromtxt(TESTING_LABELS_PATH, dtype=np.uint8, max_rows=10000)# converters={0: label_converter})
-    
+    testing_labels = np.genfromtxt(
+        TESTING_LABELS_PATH, dtype=np.uint8, max_rows=10000
+    )  # converters={0: label_converter})
+
     # Load Prediction Labels
-    prediction_labels = np.genfromtxt(PREDICTION_OUT_PATH, dtype=np.uint8, skip_header=1, usecols=(0))
+    prediction_labels = np.genfromtxt(
+        PREDICTION_OUT_PATH, dtype=np.uint8, skip_header=1, usecols=(0)
+    )
 
     return (testing_labels, prediction_labels)
 
 
 def saveConfusionMatrix(y_test, y_pred):
-
-    cm = confusion_matrix(y_test, y_pred, normalize='true')
+    cm = confusion_matrix(y_test, y_pred, normalize="true")
 
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=CLASS_LABELS)
 
     disp.plot(cmap=plt.cm.Blues)
     plt.title(CONFUSION_MATRIX_TITLE)
-    
-    #plt.show()
-    
+
+    # plt.show()
+
     plt.savefig(CONFUSION_MATRIX_PATH)
-    
 
 
 y_test, y_pred = loadData()
