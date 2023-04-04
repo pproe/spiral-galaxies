@@ -9,10 +9,11 @@ https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
 
 """
 
-from PIL import Image
-import numpy as np
 from os import listdir
 from os.path import isfile, join
+
+import numpy as np
+from PIL import Image
 
 # Ask user for inputs of image and output file paths
 folder_path = input("Enter path of folder containing images: ")

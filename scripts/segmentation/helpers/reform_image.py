@@ -9,8 +9,8 @@ https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html
 
 """
 
-from PIL import Image
 import numpy as np
+from PIL import Image
 
 # Ask user for inputs of image and output file paths
 image_file_path = input("Enter image path: ")

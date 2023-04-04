@@ -1,11 +1,12 @@
-from astropy.table import Table
-from astropy.io import fits
-import numpy as np
-from PIL import Image
 import os
+from contextlib import redirect_stdout
 from multiprocessing.pool import Pool
 from time import sleep
-from contextlib import redirect_stdout
+
+import numpy as np
+from astropy.io import fits
+from astropy.table import Table
+from PIL import Image
 
 
 class SpiralMaskDataManager:

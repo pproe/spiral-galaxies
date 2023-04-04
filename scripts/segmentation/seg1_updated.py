@@ -7,39 +7,29 @@ Revised for two channel
 """
 
 
-# from tensorflow import keras
-# from tensorflow.keras.datasets import mnist
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense, Dropout, Flatten
-from tensorflow.keras.layers import (
-    Input,
-    concatenate,
-    MaxPooling2D,
-    Conv2D,
-    Conv2DTranspose,
-    Dropout,
-)
-from tensorflow.keras import backend as K
+# import tensorflow.keras.backend.tensorflow_backend as KTF
+# import tensorflow as tf
+import os.path
 
-# from tensorflow.keras.utils import np_utils
-from tensorflow.keras.models import model_from_json
-
+import numpy as np
 ### Added 2018/3/30
 # from tensorflow.keras.applications import imagenet_utils
 # from tensorflow.keras.models import load_model
 ###
 import tensorflow.keras.callbacks
-import numpy as np
-
-# import tensorflow.keras.backend.tensorflow_backend as KTF
-# import tensorflow as tf
-import os.path
-
+from tensorflow.keras import backend as K
+# from tensorflow import keras
+# from tensorflow.keras.datasets import mnist
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Dropout, Flatten
+from tensorflow.keras.layers import (Conv2D, Conv2DTranspose, Dropout, Input,
+                                     MaxPooling2D, concatenate)
 #### New addition
 # from tensorflow.keras.layers import Activation, Flatten, Reshape
 # from tensorflow.keras.layers.convolutional import Conv2D, Conv2D, MaxPooling2D, UpSampling2D
 # from tensorflow.keras.layers.normalization import BatchNormalization
-from tensorflow.keras.models import Model
+# from tensorflow.keras.utils import np_utils
+from tensorflow.keras.models import Model, model_from_json
 
 # from tensorflow.keras.utils import np_utils
 # from tensorflow.keras.layers import Merge
