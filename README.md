@@ -29,4 +29,10 @@ Using big image data taken from Subaru/Hyper Suprime-Cam (HSC) Survey, which was
 
 ![Demonstration of Performance of small dataset with U-Net](/images/20230322_test_predictions_reduced.png)
 
-> The above figure displays various masks produced by the model when trained with a dataset of 68 augmented by a factor of ~118x.
+> The above figure displays various masks produced by the model when trained with a dataset of 68 augmented by a factor of ~118x (8024 training images total).
+
+#### Dataset of Size 1599
+
+![Demonstration of Performance of larger dataset with U-Net](/images/20230410_test_predictions_reduced.png)
+
+> The above figure displays various masks produced by the model when trained with a dataset of 1087 augmented by a factor of ~9.2x (10000 training images total). The images from the Hyper-Suprime Cam were supplemented with images and segmentation masks obtained throught the GalaxyZoo3D project.
