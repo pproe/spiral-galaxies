@@ -28,7 +28,8 @@ class SpiralMaskDataManager:
             # https://data.sdss.org/datamodel/files/MANGA_MORPHOLOGY/galaxyzoo3d/GZ3DVER/gz3d_metadata.html
             print("Extracting galaxies of interest...")
             gz3d_df = gz3d_df.loc[
-                gz3d_df["GZ_spiral_votes"] / gz3d_df["GZ_total_classifications"] > 0.2
+                gz3d_df["GZ_spiral_votes"] / gz3d_df["GZ_total_classifications"]
+                > 0.2
             ]
 
         else:
@@ -43,7 +44,8 @@ class SpiralMaskDataManager:
             # https://data.sdss.org/datamodel/files/MANGA_MORPHOLOGY/galaxyzoo3d/GZ3DVER/gz3d_metadata.html
             print("Extracting galaxies of interest...")
             gz3d_df = gz3d_df.loc[
-                gz3d_df["GZ_spiral_votes"] / gz3d_df["GZ_total_classifications"] > 0.2
+                gz3d_df["GZ_spiral_votes"] / gz3d_df["GZ_total_classifications"]
+                > 0.2
             ]
 
         return gz3d_df
@@ -67,7 +69,9 @@ class SpiralMaskDataManager:
         # Read Image from SDSS dataset
         with open("fits.log", "w") as log:
             with redirect_stdout(log):
-                with fits.open(f"{self.data_endpoint}/gz3d_{file_name}.gz") as hdulist:
+                with fits.open(
+                    f"{self.data_endpoint}/gz3d_{file_name}.gz"
+                ) as hdulist:
                     img = Image.fromarray(hdulist[0].data).convert("L")
                     msk = Image.fromarray(hdulist[3].data).convert("L")
 
@@ -97,7 +101,11 @@ if __name__ == "__main__":
 
     def track_job(job, update_interval=3):
         while job._number_left > 0:
-            print("Tasks remaining = {0}".format(job._number_left * job._chunksize))
+            print(
+                "Tasks remaining = {0}".format(
+                    job._number_left * job._chunksize
+                )
+            )
             sleep(update_interval)
 
         if job.successful():
@@ -110,7 +118,9 @@ if __name__ == "__main__":
             print(err_msg)
             pool.terminate()
 
-        res = pool.map_async(dm.save_originals, file_names, error_callback=kill_pool)
+        res = pool.map_async(
+            dm.save_originals, file_names, error_callback=kill_pool
+        )
 
         track_job(res)
     # process pool is closed automatically
