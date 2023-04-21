@@ -40,3 +40,5 @@ kenjis_scipts/
 
 # allow images inside images folder (for README only)
 !images/*
+
+*.xcf
