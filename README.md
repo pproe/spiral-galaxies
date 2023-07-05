@@ -2,9 +2,11 @@
 
 This repository hosts all relevant python scripts and notebooks used in my final-year application of the U-Net Image Segmentation model to images of spiral galaxies. This work was completed as part of my final-year research project to achieve my Masters Degree in Professional Engineering (Software). 
 
-> **Update (8/03/23)** - At this stage of the project I am reaching the final stretch of the research, transitioning my focus to collating my results and writing the accompanying paper. The model has performed promisingly on prelimnary data-sets at this stage, and I will be tweaking hyperparameters and data augmentation techniques. I intend to add more to this README as the project matures, along with a IPython notebook to make the project more usable.
+> **Update (08/03/23)** - At this stage of the project I am reaching the final stretch of the research, transitioning my focus to collating my results and writing the accompanying paper. The model has performed promisingly on prelimnary data-sets at this stage, and I will be tweaking hyperparameters and data augmentation techniques. I intend to add more to this README as the project matures, along with a IPython notebook to make the project more usable.
 
 > **Update (25/03/23)** - Image segmentation of the small dataset of 100 images (with an augmentation factor of ~118x) has produced results exceeeding my expectations for such a small set of data on this relatively complex task. I am focusing on complementing my dataset with the Galaxy Zoo 3D from the MaNGA DR17 to investigate if this will improve my results. This will lead into analysis of the flux ratio of the galaxies imaged by the HSC at the Subaru Telescope.
+
+> > **Update (05/07/23)** - The codebase is updated with the final compilation of python notebooks and accompanying scripts for generating the graphics used for the thesis report. Complementing the Subaru Telescope Dataset with data obtained from the GZ3D data release provided improvements in performance that are discussed further in the final paper. Future work would involve application of more appropriate pre-processing techniques to utilise the GZ3D data and/or generation of spiral segmentation masks for the images obtained by the Subaru Telescope (with the goal of dataset specificity).
 
 ## Sample Results
 
